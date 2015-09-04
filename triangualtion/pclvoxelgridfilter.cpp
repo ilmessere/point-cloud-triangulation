@@ -7,7 +7,7 @@ PCLVoxelGridFilter::PCLVoxelGridFilter()
     params[PARAM_LEAF_SIZE_Z] = (double) DEFAULT_LEAF_SIZE;
 }
 
-void PCLVoxelGridFilter::apply(pcl::PointCloud<pcl::PointNormal>::Ptr cloud)
+void PCLVoxelGridFilter::apply(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud)
 {
     std::cout<<"Number of points before the Voxel Grid Filtering: "<<cloud->width*cloud->height<<std::endl;
     voxel_grid_filter.setInputCloud(cloud);

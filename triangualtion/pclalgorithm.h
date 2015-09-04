@@ -9,6 +9,10 @@
 #include <string>
 #include <vector>
 
+/*
+ * pure virtual class used as an interface
+*/
+
 class PCLFilter
 {
 public:

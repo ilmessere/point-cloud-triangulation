@@ -6,7 +6,7 @@ PCLStatisticalOutlierRemoval::PCLStatisticalOutlierRemoval()
     parameters[PARAM_STD_DEV_MUL_TH] = (double) DEFAULT_STD_DEV_MUL_TH;
 }
 
-void PCLStatisticalOutlierRemoval::apply(pcl::PointCloud<pcl::PointNormal>::Ptr cloud){
+void PCLStatisticalOutlierRemoval::apply(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud){
     std::cout<<"Number of points before the Statistical Outlier Removal: "<<cloud->width*cloud->height<<std::endl;
     sor.setInputCloud (cloud);
     sor.setMeanK ((int)parameters[PARAM_MEAN_K]);

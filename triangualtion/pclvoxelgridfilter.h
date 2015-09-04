@@ -16,13 +16,13 @@ class PCLVoxelGridFilter : public PCLFilter
 {
 public:
     PCLVoxelGridFilter();
-    void apply(pcl::PointCloud<pcl::PointNormal>::Ptr cloud);
+    void apply(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
     //void setParameter(int, std::string);
     void setParameter(int, double);
     double getParameter(int);
     bool isValidParam(int);
 private:
-    pcl::VoxelGrid< pcl::PointNormal> voxel_grid_filter;
+    pcl::VoxelGrid< pcl::PointXYZ> voxel_grid_filter;
     std::map<int, double> params;
 };
 

@@ -27,6 +27,7 @@ int main(int argc,char **argv)
     triangulation->applyFilter("voxel grid filter");
     triangulation->applyFilter("gaussian noise filter");
 
+    triangulation->surfaceSmoothing();
     triangulation->reconstruct();
 
     triangulation->saveTriangulation(argv[2]);
@@ -37,6 +38,6 @@ int main(int argc,char **argv)
 void help(int argc, char **argv){
     if(argc == 3)
         return;
-    cerr<<"Error, usage:"<<endl<<argv[0]<<" <pcdfile>"<<" <outfile>"<<endl;
+    cerr<<"Error, usage:"<<endl<<argv[0]<<" <pcdfile>"<<" <outfile>.vtk"<<endl;
     exit(EXIT_FAILURE);
 }

@@ -10,6 +10,7 @@
 #define PARAM_MEAN_K 0 //"mean k"
 #define PARAM_STD_DEV_MUL_TH 1 //"standard deviation multipilier threashold"
 
+// default values
 #define DEFAULT_MEAN_K 50
 #define DEFAULT_STD_DEV_MUL_TH 0.1
 
@@ -18,13 +19,13 @@ class PCLStatisticalOutlierRemoval : public PCLFilter
 public:
 
     PCLStatisticalOutlierRemoval();
-    void apply(pcl::PointCloud<pcl::PointNormal>::Ptr cloud);
+    void apply(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
     void setParameter(int, double);
     double getParameter(int);
 
 private:
     std::map<int, double> parameters;
-    pcl::StatisticalOutlierRemoval<pcl::PointNormal> sor;
+    pcl::StatisticalOutlierRemoval<pcl::PointXYZ> sor;
 
 };
 

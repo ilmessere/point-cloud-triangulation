@@ -24,7 +24,7 @@
 class PointCloudTriangulation
 {
 private:
-    pcl::PointCloud<pcl::PointNormal>::Ptr cloud;
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud;
     pcl::PointCloud<pcl::PointNormal>::Ptr normalCloud;
     pcl::GreedyProjectionTriangulation<pcl::PointNormal> gp3;
     pcl::PolygonMesh triangles;
