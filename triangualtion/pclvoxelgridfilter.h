@@ -5,17 +5,17 @@
 #include <pcl/filters/voxel_grid.h>
 #include <string>
 #include <map>
-#include "pclalgorithm.h"
+#include "pcfilter.h"
 
 #define DEFAULT_LEAF_SIZE 0.01f
 #define PARAM_LEAF_SIZE_X 0 //"leaf size x"
 #define PARAM_LEAF_SIZE_Y 1 //"leaf size y"
 #define PARAM_LEAF_SIZE_Z 2 //"leaf size z"
 
-class PCLVoxelGridFilter : public PCLFilter
+class PCVoxelGridFilter : public PointCloudFilter
 {
 public:
-    PCLVoxelGridFilter();
+    PCVoxelGridFilter();
     void apply(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
     //void setParameter(int, std::string);
     void setParameter(int, double);

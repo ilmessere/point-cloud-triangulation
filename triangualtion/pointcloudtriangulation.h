@@ -10,7 +10,15 @@
 
 #include <map>
 #include <string>
-#include "pclalgorithm.h"
+#include "pcfilter.h"
+
+#define PARAM_SEARCH_RADIUS 0
+#define PARAM_MULTIPLIER 1
+#define PARAM_MAX_NEAREST_NEIGHBORS 2
+#define PARAM_MAX_SURFACE_ANGLE 3
+#define PARAM_MIN_ANGLE 4
+#define PARAM_MAX_ANGLE 5
+#define PARAM_NORMAL_CONSISTENCY 6
 
 //#define PI 3.141592653589793238462643383279
 #define DEFAULT_SEARCH_RADIUS 0.025
@@ -28,21 +36,24 @@ private:
     pcl::PointCloud<pcl::PointNormal>::Ptr normalCloud;
     pcl::GreedyProjectionTriangulation<pcl::PointNormal> gp3;
     pcl::PolygonMesh triangles;
-    std::map<std::string, PCLFilter* > algorithms;
+    std::map<std::string, PointCloudFilter* > algorithms;
+    std::vector<double> triangulationParams;
     
 public:
-    PointCloudTriangulation(pcl::PointCloud<pcl::PointNormal>::Ptr);
+    PointCloudTriangulation(pcl::PointCloud<pcl::PointXYZ>::Ptr);
     PointCloudTriangulation(std::string);
     PointCloudTriangulation();
 
-    void addFilter(std::string, PCLFilter*);
+    void addFilter(std::string, PointCloudFilter*);
     void applyFilter(std::string);
     void loadCloudFromFile(std::string);
     void surfaceSmoothing();
     void reconstruct();
     void saveTriangulation(std::string);
-    PCLFilter* getFilter(std::string);
-    pcl::PointCloud<pcl::PointNormal>::Ptr getCloud();
+    void setTriangulationParameter(int, double);
+    double getTriangulationParameter(int);
+    PointCloudFilter* getFilter(std::string);
+    pcl::PointCloud<pcl::PointXYZ>::Ptr getCloud();
     pcl::PolygonMesh getTriangulation();    
 };
 

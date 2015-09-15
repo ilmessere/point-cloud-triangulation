@@ -13,10 +13,10 @@
  * pure virtual class used as an interface
 */
 
-class PCLFilter
+class PointCloudFilter
 {
 public:
-    virtual void apply(pcl::PointCloud<pcl::PointNormal>::Ptr cloud) = 0;
+    virtual void apply(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) = 0;
     virtual void setParameter(int, double) = 0;
     virtual double getParameter(int) = 0;
 };

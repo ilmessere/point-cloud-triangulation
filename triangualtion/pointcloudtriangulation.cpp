@@ -1,27 +1,33 @@
 #include "pointcloudtriangulation.h"
 
-PointCloudTriangulation::PointCloudTriangulation()
+PointCloudTriangulation::PointCloudTriangulation():
+    normalCloud(new pcl::PointCloud<pcl::PointNormal>()),
+	cloud(new pcl::PointCloud<pcl::PointXYZ>())
 {
-    pcl::PointCloud<pcl::PointNormal>::Ptr tmp_cloud  (new pcl::PointCloud<pcl::PointNormal>);
-    cloud = tmp_cloud;
+    //pcl::PointCloud<pcl::PointNormal>::Ptr tmp_cloud  (new pcl::PointCloud<pcl::PointXYZ>);
+    //cloud = tmp_cloud;
 }
 
-PointCloudTriangulation::PointCloudTriangulation(std::string file_name)
+PointCloudTriangulation::PointCloudTriangulation(std::string file_name):
+    cloud(new pcl::PointCloud<pcl::PointXYZ>())
 {    
     loadCloudFromFile(file_name);
 }
 
-PointCloudTriangulation::PointCloudTriangulation(pcl::PointCloud<pcl::PointNormal>::Ptr cloud)
+PointCloudTriangulation::PointCloudTriangulation(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud)
 {
     this->cloud = cloud;
 }
 
-void PointCloudTriangulation::addFilter(std::string name, PCLFilter *algorithm)
+void PointCloudTriangulation::addFilter(std::string name, PointCloudFilter *algorithm)
 {
     algorithms[name]= algorithm;
 }
 
 void PointCloudTriangulation::surfaceSmoothing(){
+    /*
+     * TODO: add parameters for surface smoothing
+    */
     pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>());
     pcl::MovingLeastSquares<pcl::PointXYZ, pcl::PointNormal> mls;
 
@@ -34,7 +40,7 @@ void PointCloudTriangulation::surfaceSmoothing(){
 
     mls.process(*normalCloud);
     //cloud = normalCloud;
-    std::cout<<"Surface smoothing compleated"<<endl;
+    std::cout<<"Surface smoothing compleated"<<std::endl;
 }
 
 void PointCloudTriangulation::reconstruct(){
@@ -46,8 +52,8 @@ void PointCloudTriangulation::reconstruct(){
     gp3.setSearchRadius (DEFAULT_SEARCH_RADIUS);
 
     // Set typical values for the parameters
-    gp3.setMu (DEFAULT_MULTIPLIER);
-    gp3.setMaximumNearestNeighbors (DEFAULT_MAX_NEAREST_NEIGHBORS);
+    gp3.setMu (DEFAULT_MULTIPLIER); // 2.5
+    gp3.setMaximumNearestNeighbors (DEFAULT_MAX_NEAREST_NEIGHBORS); // 100
     gp3.setMaximumSurfaceAngle(DEFAULT_MAX_SURFACE_ANGLE); // 45 degrees
     gp3.setMinimumAngle(DEFAULT_MIN_ANGLE); // 10 degrees
     gp3.setMaximumAngle(DEFAULT_MAX_ANGLE); // 120 degrees
@@ -57,7 +63,7 @@ void PointCloudTriangulation::reconstruct(){
     gp3.setInputCloud (normalCloud);
     gp3.setSearchMethod (tree);
     gp3.reconstruct (triangles);
-    std::cout<<"triangulation done"
+    std::cout<<"triangulation done"<<std::endl;
 }
 
 void PointCloudTriangulation::saveTriangulation(std::string file_name){
@@ -70,12 +76,12 @@ void PointCloudTriangulation::applyFilter(std::string algorithm_name)
     algorithms[algorithm_name]->apply(this->cloud);
 }
 
-PCLFilter* PointCloudTriangulation::getFilter(std::string algorithm_name)
+PointCloudFilter* PointCloudTriangulation::getFilter(std::string algorithm_name)
 {
     return algorithms[algorithm_name];
 }
 
-pcl::PointCloud<pcl::PointNormal>::Ptr PointCloudTriangulation::getCloud()
+pcl::PointCloud<pcl::PointXYZ>::Ptr PointCloudTriangulation::getCloud()
 {
     return cloud;
 }
@@ -87,16 +93,16 @@ pcl::PolygonMesh PointCloudTriangulation::getTriangulation()
 
 void PointCloudTriangulation::loadCloudFromFile(std::string file_name)
 {
-    pcl::PointCloud<pcl::PointXYZ>::Ptr tmp_cloud (new pcl::PointCloud<pcl::PointXYZ>);
+    //pcl::PointCloud<pcl::PointXYZ>::Ptr tmp_cloud (new pcl::PointCloud<pcl::PointXYZ>);
     pcl::PCLPointCloud2 cloud_blob;
     if((pcl::io::loadPCDFile(file_name, cloud_blob))==-1){
         PCL_ERROR ("Error reading file '$s'\n", file_name.c_str());
         exit(EXIT_FAILURE);
     }
     
-    pcl::fromPCLPointCloud2(cloud_blob, *tmp_cloud);
+    pcl::fromPCLPointCloud2(cloud_blob, *cloud);
 
-    std::cout<<"Points readed: "<< tmp_cloud->width*tmp_cloud->height << std::endl;
+    std::cout<<"Points readed: "<< cloud->width*cloud->height << std::endl;
 
     //normal estimation
 //    pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> n;

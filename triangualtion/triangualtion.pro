@@ -13,10 +13,10 @@ SOURCES += main.cpp \
 
 HEADERS += \
     pointcloudtriangulation.h \
-    pclalgorithm.h \
     pclvoxelgridfilter.h \
     pclstatisticaloutlierremoval.h \
     #pclsurfacesmoothing.h
+    pcfilter.h
 
 unix:!macx: LIBS += -L$$PWD/../../../../../../../usr/lib/ -lpcl_apps
 

@@ -15,14 +15,13 @@ int main(int argc,char **argv)
     
     PointCloudTriangulation *triangulation = new PointCloudTriangulation();
 
-    triangulation->loadCloudFromFile(argv[1]);
+    triangulation->loadCloudFromFile(argv[1]); // read cloud from pcd file
 
-    PCLFilter* voxel_grid_filter = new PCLVoxelGridFilter();
-    PCLFilter* gaussian_noise_filter = new PCLStatisticalOutlierRemoval();
+    PointCloudFilter* voxel_grid_filter = new PCVoxelGridFilter();
+    PointCloudFilter* gaussian_noise_filter = new PCStatisticalOutlierRemoval();
 
     triangulation->addFilter("voxel grid filter", voxel_grid_filter);
     triangulation->addFilter("gaussian noise filter", gaussian_noise_filter);
-    //triangulation.addAlgorithm("surface smoothing", surface_smoothing);
 
     triangulation->applyFilter("voxel grid filter");
     triangulation->applyFilter("gaussian noise filter");
