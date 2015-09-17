@@ -40,7 +40,7 @@ void PointCloudTriangulation::surfaceSmoothing(){
 
     mls.process(*normalCloud);
     //cloud = normalCloud;
-    std::cout<<"Surface smoothing compleated"<<std::endl;
+    std::cout<<"Surface smoothing completed"<<std::endl;
 }
 
 void PointCloudTriangulation::reconstruct(){

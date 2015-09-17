@@ -8,7 +8,7 @@ CONFIG -= qt
 SOURCES += main.cpp \
     pointcloudtriangulation.cpp \
     pclvoxelgridfilter.cpp \
-    pclstatisticaloutlierremoval.cpp \
+    pclstatisticaloutlierremoval.cpp
     #pclsurfacesmoothing.cpp
 
 HEADERS += \
